@@ -1,0 +1,65 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  height: 60px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-right: auto;
+}
+
+.app-nav { display: flex; gap: 8px; }
+
+.nav-btn {
+  background: transparent;
+  color: var(--text-muted);
+  min-height: 36px;
+  padding: 0 16px;
+  font-size: 0.9rem;
+}
+
+.nav-btn.active {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.connection-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.connection-dot.connected { background: #10b981; }
+.connection-dot.disconnected { background: var(--danger); }
+
+.load-error {
+  background: #7c2d12;
+  color: #fed7aa;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.app-main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}

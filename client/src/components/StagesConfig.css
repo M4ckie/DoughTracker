@@ -1,0 +1,105 @@
+.stages-config { display: flex; flex-direction: column; gap: 20px; max-width: 560px; }
+
+.config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.config-header h2 { font-size: 1.2rem; font-weight: 600; }
+
+.add-btn {
+  background: var(--accent);
+  color: #fff;
+  padding: 0 20px;
+  font-weight: 600;
+  min-height: var(--touch);
+}
+
+.add-stage-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stage-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  min-height: var(--touch);
+}
+
+.stage-row:hover { border-color: var(--accent); }
+.stage-row.editing { cursor: default; flex-direction: column; align-items: stretch; }
+
+.stage-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stage-name { font-weight: 500; flex: 1; }
+.stage-edit-hint { font-size: 0.75rem; color: var(--text-muted); }
+
+.stage-edit-fields { display: flex; flex-direction: column; gap: 10px; }
+
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.color-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  min-height: 32px;
+  min-width: 32px;
+  border: 2px solid transparent;
+  padding: 0;
+}
+
+.color-swatch.selected { border-color: #fff; outline: 2px solid var(--accent); }
+
+.stage-row-actions, .add-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.delete-btn {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 0 14px;
+  margin-right: auto;
+}
+
+.cancel-btn {
+  background: var(--surface2);
+  color: var(--text-muted);
+  padding: 0 14px;
+}
+
+.save-btn {
+  background: var(--accent);
+  color: #fff;
+  padding: 0 20px;
+  font-weight: 600;
+}

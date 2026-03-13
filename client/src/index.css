@@ -1,0 +1,52 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f13;
+  --surface: #1a1a24;
+  --surface2: #22222f;
+  --border: #2e2e3d;
+  --text: #e8e8f0;
+  --text-muted: #888899;
+  --accent: #6366f1;
+  --danger: #ef4444;
+  --radius: 12px;
+  --touch: 48px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  min-height: 100dvh;
+}
+
+button {
+  min-height: var(--touch);
+  min-width: var(--touch);
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+button:active { opacity: 0.75; }
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  width: 100%;
+  outline: none;
+  min-height: var(--touch);
+}
+
+input:focus, select:focus { border-color: var(--accent); }
+
+select option { background: var(--surface2); }
