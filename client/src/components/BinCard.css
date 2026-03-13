@@ -84,6 +84,25 @@
 
 .edit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
+.conflict-banner {
+  background: #7c2d12;
+  color: #fed7aa;
+  font-size: 0.8rem;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.conflict-reload {
+  background: transparent;
+  color: #fed7aa;
+  text-decoration: underline;
+  min-height: unset;
+  font-size: 0.8rem;
+  padding: 0;
+}
+
 .edit-actions {
   display: flex;
   gap: 8px;

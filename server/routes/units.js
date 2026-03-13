@@ -46,6 +46,8 @@ router.delete('/:id', (req, res) => {
   const existing = db.prepare('SELECT * FROM units WHERE id = ?').get(id);
   if (!existing) return res.status(404).json({ error: 'Unit not found' });
 
+  db.prepare('UPDATE bins SET unit_id=NULL WHERE unit_id=?').run(id);
+  db.prepare('UPDATE bin_history SET unit_id=NULL WHERE unit_id=?').run(id);
   db.prepare('DELETE FROM units WHERE id=?').run(id);
   req.io.emit('unit:deleted', { id: Number(id) });
   res.json({ ok: true });

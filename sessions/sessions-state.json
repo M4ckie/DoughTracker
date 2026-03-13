@@ -19,7 +19,43 @@
   },
   "mode": "implementation",
   "todos": {
-    "active": [],
+    "active": [
+      {
+        "content": "Verify all success criteria are checked off",
+        "status": "pending",
+        "activeForm": "Verifying status of success criteria"
+      },
+      {
+        "content": "Run code-review agent and address any critical issues",
+        "status": "pending",
+        "activeForm": "Running code-review agent"
+      },
+      {
+        "content": "Run logging agent to consolidate work logs",
+        "status": "pending",
+        "activeForm": "Running logging agent to consolidate work logs"
+      },
+      {
+        "content": "Run service-documentation agent to update CLAUDE.md files and other documentation",
+        "status": "pending",
+        "activeForm": "Running service-documentation agent to update documentation"
+      },
+      {
+        "content": "Mark task file complete and move to tasks/done/",
+        "status": "pending",
+        "activeForm": "Archiving task file"
+      },
+      {
+        "content": "Commit changes and ask if user wants to merge to main",
+        "status": "pending",
+        "activeForm": "Committing and handling merge"
+      },
+      {
+        "content": "Push changes to remote",
+        "status": "pending",
+        "activeForm": "Pushing changes to remote"
+      }
+    ],
     "stashed": []
   },
   "model": "sonnet",

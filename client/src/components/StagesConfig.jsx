@@ -28,12 +28,19 @@ function StageRow({ stage, onSave, onDelete }) {
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: stage.name, color: stage.color });
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   async function save() {
     setSaving(true);
-    await onSave(stage.id, form);
-    setEditing(false);
-    setSaving(false);
+    setError('');
+    try {
+      await onSave(stage.id, form);
+      setEditing(false);
+    } catch (err) {
+      setError(err.message || 'Save failed');
+    } finally {
+      setSaving(false);
+    }
   }
 
   if (editing) {
@@ -43,6 +50,7 @@ function StageRow({ stage, onSave, onDelete }) {
           <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
           <ColorPicker value={form.color} onChange={color => setForm(f => ({ ...f, color }))} />
         </div>
+        {error && <p style={{ color: 'var(--danger)', fontSize: '0.8rem' }}>{error}</p>}
         <div className="stage-row-actions">
           <button className="delete-btn" onClick={() => onDelete(stage.id)}>Delete</button>
           <button className="cancel-btn" onClick={() => setEditing(false)}>Cancel</button>

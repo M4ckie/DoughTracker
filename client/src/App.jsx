@@ -11,12 +11,13 @@ export default function App() {
   const [stages, setStages] = useState([]);
   const [units, setUnits] = useState([]);
   const [connected, setConnected] = useState(false);
+  const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
     // Load initial data
-    Promise.all([api.bins.list(), api.stages.list(), api.units.list()]).then(
-      ([b, s, u]) => { setBins(b); setStages(s); setUnits(u); }
-    );
+    Promise.all([api.bins.list(), api.stages.list(), api.units.list()])
+      .then(([b, s, u]) => { setBins(b); setStages(s); setUnits(u); })
+      .catch(() => setLoadError('Could not connect to server. Is it running?'));
 
     // Socket events
     socket.on('connect', () => setConnected(true));
@@ -59,6 +60,7 @@ export default function App() {
       </header>
 
       <main className="app-main">
+        {loadError && <div className="load-error">{loadError}</div>}
         {view === 'dashboard' && (
           <BinDashboard bins={bins} stages={stages} units={units} />
         )}

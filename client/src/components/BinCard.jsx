@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { api } from '../api.js';
 import BinHistory from './BinHistory.jsx';
 import './BinCard.css';
@@ -6,6 +6,7 @@ import './BinCard.css';
 export default function BinCard({ bin, stages, units }) {
   const [editing, setEditing] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [conflict, setConflict] = useState(false);
   const [form, setForm] = useState({
     label: bin.label,
     stage_id: bin.stage_id ?? '',
@@ -15,6 +16,24 @@ export default function BinCard({ bin, stages, units }) {
     note: '',
   });
   const [saving, setSaving] = useState(false);
+  const editingRef = useRef(editing);
+  editingRef.current = editing;
+
+  // Keep form fresh when bin updates from another terminal
+  useEffect(() => {
+    if (editingRef.current) {
+      setConflict(true);
+    } else {
+      setForm({
+        label: bin.label,
+        stage_id: bin.stage_id ?? '',
+        quantity: bin.quantity,
+        unit_id: bin.unit_id ?? '',
+        location: bin.location,
+        note: '',
+      });
+    }
+  }, [bin]);
 
   function startEdit() {
     setForm({
@@ -25,6 +44,7 @@ export default function BinCard({ bin, stages, units }) {
       location: bin.location,
       note: '',
     });
+    setConflict(false);
     setEditing(true);
   }
 
@@ -57,6 +77,11 @@ export default function BinCard({ bin, stages, units }) {
           <span className="edit-title">Edit Bin</span>
           <button className="icon-btn" onClick={() => setEditing(false)}>✕</button>
         </div>
+        {conflict && (
+          <div className="conflict-banner">
+            ⚠️ This bin was updated on another terminal. <button className="conflict-reload" onClick={startEdit}>Reload latest</button>
+          </div>
+        )}
 
         <div className="edit-fields">
           <label>Label
