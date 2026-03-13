@@ -1,0 +1,78 @@
+DoughTracker
+Real-Time Donut Shop Production Management System
+Project Specification — v1.0 — March 2026
+Problem Statement
+The shop currently tracks dough inventory, bin contents, proofing status, and ingredient levels on paper. This creates delays in decision-making: staff cannot quickly determine how many donuts can be produced from current dough, when proofing bins will be ready, or whether ingredient reorders are needed. DoughTracker replaces the paper system with a real-time digital dashboard accessible to 2–3 staff members simultaneously.
+Project Goals
+•	Eliminate paper-based tracking of dough, bins, and ingredients
+•	Provide real-time visibility into production capacity and bin status
+•	Auto-deduct ingredients when batches are made (with manual override)
+•	Track bin duration with configurable alerts (e.g., proofing time limits)
+•	Sync ingredient levels to Google Sheets for reorder management
+•	Support simple order counts to inform production decisions
+•	Glove-friendly UI with large touch targets for shop floor use
+Users
+2–3 staff members access the system simultaneously via tablets or a shared shop-floor terminal. Authentication is PIN-based (4-digit code per staff member) for speed and glove compatibility. Each action is logged with the staff member’s identity for accountability without the friction of full login flows.
+Technology Stack
+Component	Technology
+Backend	Flask (Python) — familiar stack, lightweight
+Frontend	React + Vite — responsive, glove-friendly touch targets
+Database	SQLite (local phase) → PostgreSQL (hosted phase)
+Auth	Simple PIN-per-staff, no passwords initially
+Sheets Sync	Google Sheets API v4 via service account
+Containerization	Podman (consistent with your existing workflow)
+Unit System	Pint library for imperial/metric conversion
+
+System Architecture
+Overview
+DoughTracker is a Flask application serving a React frontend. In the local phase, it runs in a Podman container on the shop network. The React frontend communicates with Flask via a REST API. Google Sheets sync runs as a background task (via APScheduler or similar) with a manual trigger available in the UI.
+Key Design Decisions
+Glove-friendly UI: All interactive elements have a minimum touch target of 48x48px. Primary actions use large buttons. Data entry favors tap-to-increment controls and dropdown selectors over free text input where possible. Freeform text fields (like bin location) use an oversized on-screen keyboard or autocomplete from recent entries.
+Unit conversion: All weights are stored internally in grams. Display converts to the user’s preferred unit system (imperial or metric) on the fly using the Pint library. A global toggle in the UI switches between systems. Recipes store their original units alongside the normalized gram value for clarity.
+Offline resilience: Google Sheets sync failures are queued and retried. The app remains fully functional without internet — Sheets sync is additive, not blocking.
+Data Model
+Entity	Key Fields	Notes
+Recipe	name, yield_weight, yield_unit	Master recipe with versioning support
+RecipeIngredient	recipe_id, ingredient_id, quantity, unit	Junction table linking recipes to ingredients
+Ingredient	name, current_stock, unit, reorder_threshold	Syncs to Google Sheet for reorder tracking
+Bin	label, bin_type, contents, weight, unit, location, status	Core tracking entity — freeform location text
+BinTimer	bin_id, timer_type, started_at, stopped_at, alert_minutes	Multiple timers per bin (proof, rest, etc.)
+BatchLog	recipe_id, bin_id, staff_pin, ingredients_deducted	Audit trail linking recipe runs to bins
+Order	donut_type, quantity, due_by, status	Simple order count for decision support
+StaffMember	name, pin, role	PIN-based identification, activity logging
+
+Bin Management System
+Bin Lifecycle
+1.	Create: Staff taps “New Bin,” selects type (raw dough, proofing, layers, finished), enters weight, assigns a label and freeform location.
+2.	Update: Tap a bin card to adjust weight (e.g., after splitting or combining), move to a new location, or change status.
+3.	Timer: Each bin can have one or more named timers (e.g., “proofing,” “resting”). Timers auto-start on bin creation or can be manually triggered. Configurable alert thresholds fire browser notifications.
+4.	Archive: When a bin is emptied or used up, it moves to an archive log rather than being deleted, preserving the production history.
+Bin Card UI
+Each bin is displayed as a card showing: label, type icon, current weight with unit, location, active timer(s) with elapsed time, and a color-coded status indicator (green = OK, yellow = approaching alert, red = past alert threshold). Cards are sortable/filterable by type, location, and timer status.
+Recipe and Ingredient System
+Recipes define a list of ingredients with quantities and a target yield weight. When a staff member “runs” a recipe, the system calculates ingredient deductions based on the batch multiplier (e.g., 2x batch = double ingredients), deducts from inventory, and creates a new bin with the expected yield weight. Staff can override any deducted value before confirming. A batch log records the transaction for audit purposes.
+Ingredient Sync to Google Sheets
+A designated Google Sheet serves as the reorder reference. The system writes current stock levels to the sheet on a configurable interval (default: every 15 minutes) and on any manual sync trigger. The sheet can contain formulas for reorder logic — the app only writes stock values and does not modify other cells. A service account is used for authentication, avoiding personal OAuth flows.
+Order Tracking
+Phase 1 order tracking is intentionally simple: a list of donut type + quantity + due-by time. The dashboard surfaces a summary showing total donuts needed vs. current production capacity (bins in progress + finished inventory). This gives staff a quick answer to “do we need to make more?” without complex order management. Future phases could integrate with a POS system.
+Implementation Phases
+Phase	Scope	Priority	Est. Effort
+1	Core bin management, recipe DB, unit conversion, basic UI	Must Have	1–2 weeks
+2	Ingredient auto-deduct with override, simple order tracking	Must Have	1 week
+3	Duration tracking with alerts, staff PIN login	Must Have	1 week
+4	Google Sheets auto-sync + manual sync	Must Have	1 week
+5	Dashboard / decision support (what to make next)	Nice to Have	1–2 weeks
+6	Production-ready deployment, backup, mobile optimization	Future	Ongoing
+
+Deployment Strategy
+Local Phase
+The app runs in a Podman container on a local machine connected to the shop network. Staff access it via browser at a local IP address (e.g., http://192.168.1.50:5000). SQLite handles the database. Backups are automated nightly via a cron job copying the DB file.
+Hosted Phase (Future)
+When ready to move off-premises, the app migrates to a VPS or cloud instance. SQLite migrates to PostgreSQL. HTTPS and proper authentication (beyond PINs) are added. The Podman container makes this transition straightforward — same image, different host.
+Open Questions for Future Discussion
+•	Should bins support splitting (one bin becomes two) and merging (two bins combine into one) as first-class operations?
+•	Do we need barcode/QR scanning for physical bin labels, or is manual selection sufficient?
+•	What specific columns/layout does the existing Google Sheet use for reorder tracking?
+•	Are there regulatory or food safety logging requirements that should be built in from the start?
+•	Should the timer alert system use browser notifications, audible alarms, or both?
+
