@@ -1,0 +1,26 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./data:/data
+    environment:
+      - DB_PATH=/data/doughtracker.sqlite
+      - PORT=3001
+      - GOOGLE_SPREADSHEET_ID=${GOOGLE_SPREADSHEET_ID:-}
+      - GOOGLE_SERVICE_ACCOUNT_PATH=/data/service-account.json
+      - SHEETS_SYNC_INTERVAL_SECONDS=${SHEETS_SYNC_INTERVAL_SECONDS:-30}
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    restart: unless-stopped

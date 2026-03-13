@@ -1,0 +1,24 @@
+.bin-history {
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.history-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.8rem;
+}
+
+.history-meta { display: flex; gap: 10px; align-items: center; }
+.history-time { color: var(--text-muted); }
+.history-stage { font-weight: 600; }
+.history-detail { display: flex; gap: 8px; color: var(--text); }
+.history-note { color: var(--text-muted); font-style: italic; }
+.history-loading, .history-empty { font-size: 0.8rem; color: var(--text-muted); }
