@@ -30,4 +30,9 @@ export const api = {
     update: (id, data) => req('PATCH', `/units/${id}`, data),
     delete: (id) => req('DELETE', `/units/${id}`),
   },
+  admin: {
+    archiveAll: () => req('POST', '/admin/archive-all'),
+    clearData: () => req('POST', '/admin/clear-data'),
+    factoryReset: () => req('POST', '/admin/factory-reset'),
+  },
 };

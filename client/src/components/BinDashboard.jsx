@@ -4,7 +4,7 @@ import BinCard from './BinCard.jsx';
 import AddBin from './AddBin.jsx';
 import './BinDashboard.css';
 
-export default function BinDashboard({ bins, stages, units }) {
+export default function BinDashboard({ bins, stages, units, onBinCreated }) {
   const [showAdd, setShowAdd] = useState(false);
   const [filterStage, setFilterStage] = useState('all');
 
@@ -50,7 +50,7 @@ export default function BinDashboard({ bins, stages, units }) {
       )}
 
       {showAdd && (
-        <AddBin stages={stages} units={units} onClose={() => setShowAdd(false)} />
+        <AddBin stages={stages} units={units} onClose={() => setShowAdd(false)} onCreated={onBinCreated} />
       )}
     </div>
   );

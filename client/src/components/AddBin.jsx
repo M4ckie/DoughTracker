@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '../api.js';
 import './AddBin.css';
 
-export default function AddBin({ stages, units, onClose }) {
+export default function AddBin({ stages, units, onClose, onCreated }) {
   const [form, setForm] = useState({
     label: '',
     stage_id: stages[0]?.id ?? '',
@@ -19,12 +19,13 @@ export default function AddBin({ stages, units, onClose }) {
     setSaving(true);
     setError('');
     try {
-      await api.bins.create({
+      const bin = await api.bins.create({
         ...form,
         stage_id: form.stage_id || null,
         unit_id: form.unit_id || null,
         quantity: parseFloat(form.quantity) || 0,
       });
+      onCreated?.(bin);
       onClose();
     } catch (err) {
       setError(err.message);

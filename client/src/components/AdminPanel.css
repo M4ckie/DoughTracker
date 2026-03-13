@@ -1,0 +1,124 @@
+.admin-panel {
+  max-width: 640px;
+}
+
+.admin-header {
+  margin-bottom: 24px;
+}
+
+.admin-header h2 {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.admin-header p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.admin-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-card-done {
+  border-color: #5cb87a;
+}
+
+.admin-card-body h3 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.admin-card-body p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.admin-btn {
+  padding: 0 20px;
+  font-weight: 600;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+.admin-btn-warning {
+  background: #d97706;
+  color: #fff;
+}
+
+.admin-btn-warning:not(:disabled):hover {
+  background: #b45309;
+}
+
+.admin-btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.admin-btn-danger:not(:disabled):hover {
+  background: #c73c3c;
+}
+
+.admin-btn-ghost {
+  background: var(--surface2);
+  color: var(--text-muted);
+}
+
+.admin-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.admin-confirm-message {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.admin-reset-input {
+  font-family: monospace;
+  letter-spacing: 0.05em;
+}
+
+.admin-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-result-ok {
+  color: #5cb87a;
+  font-size: 0.9rem;
+}
+
+.admin-result-err {
+  color: var(--danger);
+  font-size: 0.9rem;
+}

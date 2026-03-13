@@ -1,16 +1,27 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0f0f13;
-  --surface: #1a1a24;
-  --surface2: #22222f;
-  --border: #2e2e3d;
-  --text: #e8e8f0;
-  --text-muted: #888899;
-  --accent: #6366f1;
-  --danger: #ef4444;
+  --bg: #140d04;
+  --surface: #1e1409;
+  --surface2: #28190e;
+  --border: #3d2910;
+  --text: #f5e8d0;
+  --text-muted: #9e7a52;
+  --accent: #e8960a;
+  --danger: #e05252;
   --radius: 12px;
   --touch: 48px;
+}
+
+html[data-theme="light"] {
+  --bg: #fdf4f1;
+  --surface: #ffffff;
+  --surface2: #fce8e2;
+  --border: #f0cec5;
+  --text: #1a0f0a;
+  --text-muted: #8a5a50;
+  --accent: #c8705a;
+  --danger: #c93a3a;
 }
 
 body {

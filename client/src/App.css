@@ -38,6 +38,17 @@
   color: var(--text);
 }
 
+.theme-toggle {
+  background: transparent;
+  color: var(--text-muted);
+  min-height: 36px;
+  min-width: 36px;
+  font-size: 1.1rem;
+  padding: 0;
+}
+
+.theme-toggle:hover { color: var(--text); }
+
 .connection-dot {
   width: 10px;
   height: 10px;
@@ -45,7 +56,7 @@
   flex-shrink: 0;
 }
 
-.connection-dot.connected { background: #10b981; }
+.connection-dot.connected { background: #5cb87a; }
 .connection-dot.disconnected { background: var(--danger); }
 
 .load-error {
@@ -54,6 +65,11 @@
   padding: 12px 20px;
   text-align: center;
   font-size: 0.9rem;
+}
+
+html[data-theme="light"] .load-error {
+  background: #fde8d8;
+  color: #7c2d12;
 }
 
 .app-main {

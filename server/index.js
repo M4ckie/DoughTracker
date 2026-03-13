@@ -5,6 +5,7 @@ import cors from 'cors';
 import binsRouter from './routes/bins.js';
 import stagesRouter from './routes/stages.js';
 import unitsRouter from './routes/units.js';
+import adminRouter from './routes/admin.js';
 import { startSheetsSync } from './sheets.js';
 
 const app = express();
@@ -25,6 +26,7 @@ app.use((req, _res, next) => {
 app.use('/api/bins', binsRouter);
 app.use('/api/stages', stagesRouter);
 app.use('/api/units', unitsRouter);
+app.use('/api/admin', adminRouter);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 

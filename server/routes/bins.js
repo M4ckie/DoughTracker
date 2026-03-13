@@ -20,7 +20,7 @@ const HISTORY_SELECT = `
   LEFT JOIN stages s ON h.stage_id = s.id
   LEFT JOIN units u ON h.unit_id = u.id
   WHERE h.bin_id = ?
-  ORDER BY h.created_at DESC
+  ORDER BY h.created_at DESC, h.id DESC
 `;
 
 // GET /api/bins
@@ -72,7 +72,7 @@ router.patch('/:id', (req, res) => {
   };
 
   db.prepare(
-    'UPDATE bins SET label=?, stage_id=?, quantity=?, unit_id=?, location=?, updated_at=datetime("now") WHERE id=?'
+    "UPDATE bins SET label=?, stage_id=?, quantity=?, unit_id=?, location=?, updated_at=datetime('now') WHERE id=?"
   ).run(updated.label, updated.stage_id, updated.quantity, updated.unit_id, updated.location, id);
 
   // Log history
@@ -92,7 +92,7 @@ router.delete('/:id', (req, res) => {
   const existing = db.prepare('SELECT * FROM bins WHERE id = ? AND archived = 0').get(id);
   if (!existing) return res.status(404).json({ error: 'Bin not found' });
 
-  db.prepare('UPDATE bins SET archived=1, updated_at=datetime("now") WHERE id=?').run(id);
+  db.prepare("UPDATE bins SET archived=1, updated_at=datetime('now') WHERE id=?").run(id);
   db.prepare('INSERT INTO bin_history (bin_id, stage_id, quantity, unit_id, note) VALUES (?, ?, ?, ?, ?)').run(
     id, existing.stage_id, existing.quantity, existing.unit_id, 'Bin archived'
   );
